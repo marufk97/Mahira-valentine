@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&family=Great+Vibes&display=swap" rel="stylesheet">
+
+<style>
+body{
+margin:0;
+background:linear-gradient(135deg,#ffd6e7,#ffc0cb);
+font-family:Poppins;
+overflow:hidden;
+text-align:center;
+}
+
+.box{
+position:absolute;
+top:50%;
+left:50%;
+transform:translate(-50%,-50%);
+background:rgba(255,255,255,0.75);
+backdrop-filter:blur(12px);
+padding:35px;
+border-radius:25px;
+box-shadow:0 0 30px rgba(255,105,180,0.4);
+}
+
+h2{
+font-family:'Great Vibes',cursive;
+font-size:38px;
+color:#ff2e63;
+margin-bottom:20px;
+}
+
+.typeText{
+font-family:'Great Vibes',cursive;
+font-size:42px;
+color:#ff2e63;
+min-height:60px;
+}
+
+.btnRow{
+display:flex;
+justify-content:center;
+gap:40px;
+}
+
+.cat{font-size:35px;margin-bottom:6px;}
+
+button{
+padding:12px 24px;
+border:none;
+border-radius:30px;
+font-size:16px;
+cursor:pointer;
+}
+
+.yes{background:#ff2e63;color:#fff;}
+.no{background:#888;color:#fff;position:relative;}
+
+.heart{
+position:absolute;
+font-size:22px;
+animation:float 6s linear infinite;
+}
+@keyframes float{
+0%{transform:translateY(0);}
+50%{transform:translateY(-20px);}
+100%{transform:translateY(0);}
+}
+
+.cd{
+font-size:35px;
+animation:spin 3s linear infinite;
+animation-play-state:paused;
+}
+@keyframes spin{
+from{transform:rotate(0);}
+to{transform:rotate(360deg);}
+}
+
+.imgRow{
+display:flex;
+justify-content:center;
+gap:12px;
+margin-top:15px;
+}
+.imgRow img{
+width:90px;
+height:90px;
+object-fit:cover;
+clip-path:path("M50 15 C35 -5 0 0 0 37 C0 70 50 95 50 95 C50 95 100 70 100 37 C100 0 65 -5 50 15 Z");
+box-shadow:0 0 15px rgba(255,105,180,0.5);
+display:none;
+}
+</style>
+</head>
+
+<body>
+
+<!-- LOCAL MUSIC (Put music.mp3 in same folder) -->
+<audio id="bgMusic" src="music.mp3" preload="auto"></audio>
+
+<script>
+for(let i=0;i<50;i++){
+let h=document.createElement("div");
+h.className="heart";
+h.innerHTML=Math.random()>0.5?"💗":"💖";
+h.style.left=Math.random()*100+"vw";
+h.style.top=Math.random()*100+"vh";
+document.body.appendChild(h);
+}
+</script>
+
+<div class="box">
+
+<h2 id="title">Will you be my Valentine, Mahira ?</h2>
+
+<div class="btnRow" id="btnRow">
+<div>
+<div class="cat">😺</div>
+<button class="yes" onclick="yesClick()">Yes ♥️</button>
+</div>
+
+<div>
+<div class="cat">😿</div>
+<button class="no" id="noBtn" onclick="noClick()">No</button>
+</div>
+</div>
+
+<div style="margin-top:15px;">
+<div class="cd" id="cd">💿</div>
+</div>
+
+<div id="msg"></div>
+<div class="typeText" id="typeText"></div>
+
+<div class="imgRow">
+<img src="img1.jpg" id="img1">
+<img src="img2.jpg" id="img2">
+<img src="img3.jpg" id="img3">
+</div>
+
+</div>
+
+<script>
+let noCount=0;
+let noBtn=document.getElementById("noBtn");
+
+noBtn.addEventListener("mouseover",()=>{
+if(noCount>=1){
+let x=Math.random()*220-110;
+let y=Math.random()*220-110;
+noBtn.style.transform=`translate(${x}px,${y}px)`;
+}
+});
+
+function noClick(){
+noCount++;
+if(noCount==1){ msg.innerHTML="😢 Really?"; }
+else if(noCount==2){ msg.innerHTML="Think again…"; }
+else{ msg.innerHTML="You can't do that with me 😢"; }
+}
+
+function typeWriter(text){
+let i=0;
+let speed=80;
+let target=document.getElementById("typeText");
+target.innerHTML="";
+function typing(){
+if(i<text.length){
+target.innerHTML+=text.charAt(i);
+i++;
+setTimeout(typing,speed);
+}
+}
+typing();
+}
+
+function yesClick(){
+
+document.getElementById("title").style.display="none";
+document.getElementById("btnRow").style.display="none";
+document.getElementById("msg").style.display="none";
+
+typeWriter("You made me happiest 💕");
+
+document.getElementById("cd").style.animationPlayState="running";
+
+/* PLAY LOCAL MUSIC */
+document.getElementById("bgMusic").play();
+
+/* SHOW IMAGES */
+document.getElementById("img1").style.display="block";
+document.getElementById("img2").style.display="block";
+document.getElementById("img3").style.display="block";
+}
+</script>
+
+</body>
+</html>
