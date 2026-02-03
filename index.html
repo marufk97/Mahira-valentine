@@ -15,6 +15,7 @@ overflow:hidden;
 text-align:center;
 }
 
+/* Card */
 .box{
 position:absolute;
 top:50%;
@@ -38,7 +39,8 @@ margin-bottom:20px;
 font-family:'Great Vibes',cursive;
 font-size:42px;
 color:#ff2e63;
-min-height:60px;
+min-height:80px;
+white-space:pre-line;
 }
 
 .btnRow{
@@ -71,6 +73,14 @@ animation:float 6s linear infinite;
 100%{transform:translateY(0);}
 }
 
+.player{
+display:flex;
+align-items:center;
+justify-content:center;
+gap:15px;
+margin-top:15px;
+}
+
 .cd{
 font-size:35px;
 animation:spin 3s linear infinite;
@@ -81,29 +91,50 @@ from{transform:rotate(0);}
 to{transform:rotate(360deg);}
 }
 
-.imgRow{
-display:flex;
-justify-content:center;
-gap:12px;
-margin-top:15px;
+.timelineDot{
+position:absolute;
+font-size:18px;
+offset-path:path("M100,30 C100,-20 180,-20 180,30 C180,80 100,120 100,150 C100,120 20,80 20,30 C20,-20 100,-20 100,30 Z");
+animation:moveHeart 6s linear infinite;
+animation-play-state:paused;
 }
-.imgRow img{
+@keyframes moveHeart{
+from{offset-distance:0%;}
+to{offset-distance:100%;}
+}
+
+/* ❤️ IMAGE POPUP HEART STYLE */
+.imgWrap{
+display:none;
+margin-top:20px;
+gap:10px;
+justify-content:center;
+}
+
+.imgWrap img{
 width:90px;
 height:90px;
-object-fit:cover;
-clip-path:path("M50 15 C35 -5 0 0 0 37 C0 70 50 95 50 95 C50 95 100 70 100 37 C100 0 65 -5 50 15 Z");
-box-shadow:0 0 15px rgba(255,105,180,0.5);
-display:none;
+border-radius:50%;
+object-fit:cover;       /* FACE CUT NA HO */
+object-position:center; /* CENTER FACE */
+box-shadow:0 0 15px rgba(255,0,100,0.5);
+animation:pop 0.8s ease forwards;
+}
+
+@keyframes pop{
+0%{transform:scale(0);}
+100%{transform:scale(1);}
 }
 </style>
 </head>
 
 <body>
 
-<!-- LOCAL MUSIC (Put music.mp3 in same folder) -->
-<audio id="bgMusic" src="music.mp3" preload="auto"></audio>
+<!-- Hidden YouTube Player -->
+<iframe id="ytplayer" width="0" height="0" src="" frameborder="0" allow="autoplay"></iframe>
 
 <script>
+/* Floating hearts */
 for(let i=0;i<50;i++){
 let h=document.createElement("div");
 h.className="heart";
@@ -114,11 +145,12 @@ document.body.appendChild(h);
 }
 </script>
 
-<div class="box">
+<div class="box" id="box">
 
 <h2 id="title">Will you be my Valentine, Mahira ?</h2>
 
 <div class="btnRow" id="btnRow">
+
 <div>
 <div class="cat">😺</div>
 <button class="yes" onclick="yesClick()">Yes ♥️</button>
@@ -128,19 +160,23 @@ document.body.appendChild(h);
 <div class="cat">😿</div>
 <button class="no" id="noBtn" onclick="noClick()">No</button>
 </div>
+
 </div>
 
-<div style="margin-top:15px;">
+<div class="player">
 <div class="cd" id="cd">💿</div>
 </div>
+
+<div class="timelineDot" id="dot">💗</div>
 
 <div id="msg"></div>
 <div class="typeText" id="typeText"></div>
 
-<div class="imgRow">
-<img src="img1.jpg" id="img1">
-<img src="img2.jpg" id="img2">
-<img src="img3.jpg" id="img3">
+<!-- ❤️ IMAGE HEART POPUP -->
+<div class="imgWrap" id="imgWrap">
+<img src="photo1.jpg">
+<img src="photo2.jpg">
+<img src="photo3.jpg">
 </div>
 
 </div>
@@ -161,7 +197,9 @@ function noClick(){
 noCount++;
 if(noCount==1){ msg.innerHTML="😢 Really?"; }
 else if(noCount==2){ msg.innerHTML="Think again…"; }
-else{ msg.innerHTML="You can't do that with me 😢"; }
+else{
+msg.innerHTML="You can't do that with me 😢";
+}
 }
 
 function typeWriter(text){
@@ -185,17 +223,21 @@ document.getElementById("title").style.display="none";
 document.getElementById("btnRow").style.display="none";
 document.getElementById("msg").style.display="none";
 
-typeWriter("You made me happiest 💕");
+/* TWO LINE TEXT */
+typeWriter("You made me happiest 💕\n\nI love you Mahira ❤️");
 
+/* MUSIC */
+document.getElementById("ytplayer").src=
+"https://www.youtube.com/embed/SBQ1nvPkZEU?autoplay=1&mute=1&loop=1&playlist=SBQ1nvPkZEU";
+
+/* START ANIMATION */
 document.getElementById("cd").style.animationPlayState="running";
-
-/* PLAY LOCAL MUSIC */
-document.getElementById("bgMusic").play();
+document.getElementById("dot").style.animationPlayState="running";
 
 /* SHOW IMAGES */
-document.getElementById("img1").style.display="block";
-document.getElementById("img2").style.display="block";
-document.getElementById("img3").style.display="block";
+setTimeout(()=>{
+document.getElementById("imgWrap").style.display="flex";
+},1800);
 }
 </script>
 
